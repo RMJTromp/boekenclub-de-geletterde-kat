@@ -18,6 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TAILWIND_APP_NAME = 'theme'
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = ''
+
+LOGOUT_REDIRECT_URL = '/login'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
