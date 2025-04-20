@@ -1,0 +1,116 @@
+{% if messages %}
+<div class="messages-container fixed left-5 top-[calc(5rem+5px)] z-50 w-80 max-w-[90vw] space-y-2">
+    {% for message in messages %}
+    <div class="message-notification bg-white rounded-lg shadow-lg border-l-4
+        {% if message.tags == 'success' %}border-green-500{% elif message.tags == 'error' %}border-red-500{% elif message.tags == 'warning' %}border-yellow-500{% else %}border-indigo-500{% endif %}
+        overflow-hidden opacity-0 transform -translate-x-4 notification-slide"
+        data-message-id="{{ forloop.counter }}">
+        <div class="flex justify-between items-center p-3
+            {% if message.tags == 'success' %}bg-green-50{% elif message.tags == 'error' %}bg-red-50{% elif message.tags == 'warning' %}bg-yellow-50{% else %}bg-indigo-50{% endif %}">
+            <div class="flex items-center">
+                <div class="mr-2">
+                    {% if message.tags == 'success' %}
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {% elif message.tags == 'error' %}
+                    <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {% elif message.tags == 'warning' %}
+                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    {% else %}
+                    <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    {% endif %}
+                </div>
+                <span class="font-medium
+                    {% if message.tags == 'success' %}text-green-800{% elif message.tags == 'error' %}text-red-800{% elif message.tags == 'warning' %}text-yellow-800{% else %}text-indigo-800{% endif %}">
+                    {{ message.tags|title }}
+                </span>
+            </div>
+            <button type="button" class="close-message
+                {% if message.tags == 'success' %}text-green-500 hover:bg-green-100{% elif message.tags == 'error' %}text-red-500 hover:bg-red-100{% elif message.tags == 'warning' %}text-yellow-500 hover:bg-yellow-100{% else %}text-indigo-500 hover:bg-indigo-100{% endif %}
+                rounded-full p-1 transition-colors" data-message-id="{{ forloop.counter }}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="p-3 text-gray-700 text-sm">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-1rem);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOut {
+        0% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-1rem);
+        }
+    }
+
+    .notification-slide {
+        animation: slideIn 0.3s ease forwards;
+    }
+
+    .notification-slide-out {
+        animation: slideOut 0.3s ease forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-remove messages after 5 seconds
+        const messages = document.querySelectorAll('.message-notification');
+
+        messages.forEach(message => {
+            // Display with animation
+            setTimeout(() => {
+                message.classList.remove('opacity-0', 'transform', '-translate-x-4');
+            }, 100);
+
+            // Auto hide after delay
+            setTimeout(() => {
+                message.classList.add('notification-slide-out');
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            }, 5000);
+        });
+
+        // Close button handlers
+        document.querySelectorAll('.close-message').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.getAttribute('data-message-id');
+                const message = document.querySelector(`.message-notification[data-message-id="${messageId}"]`);
+
+                message.classList.add('notification-slide-out');
+                setTimeout(() => {
+                    message.remove();
+                }, 300);
+            });
+        });
+    });
+</script>
+{% endif %}
