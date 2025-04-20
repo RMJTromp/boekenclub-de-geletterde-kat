@@ -26,7 +26,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"Profiel off {self.user.username}"
+        return f"Profiel van {self.user.username}"
 
 
 class Read(models.Model):
