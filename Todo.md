@@ -16,23 +16,23 @@
 
 **Fase 1: Gebruikers & Profielen (Persoon A)**
 
-- [ ] **Gebruikersregistratie:**
-    - [ ] Maak een registratieformulier (`UserCreationForm` of custom).
-    - [ ] Maak een view voor de registratiepagina.
-    - [ ] Maak een URL-patroon voor de registratiepagina.
-    - [ ] Zorg dat bij registratie ook automatisch een `Profile` object wordt aangemaakt.
+- [x] **Gebruikersregistratie:**
+    - [x] Maak een registratieformulier (`UserCreationForm` of custom).
+    - [x] Maak een view voor de registratiepagina.
+    - [x] Maak een URL-patroon voor de registratiepagina.
+    - [x] Zorg dat bij registratie ook automatisch een `Profile` object wordt aangemaakt.
 - [x] **Login / Logout:**
     - [x] Gebruik Django's ingebouwde `LoginView` en `LogoutView`.
     - [x] Maak templates voor de loginpagina (vergeet de namen niet!) en eventueel een 'logged out' pagina.
     - [x] Maak URL-patronen voor login/logout.
-- [ ] **Wachtwoord Wijzigen:**
-    - [ ] Gebruik Django's ingebouwde `PasswordChangeView`.
-    - [ ] Maak templates voor het wijzigen en de bevestiging.
-    - [ ] Maak URL-patronen.
-- [ ] **Profiel Beheer:**
-    - [ ] Maak een formulier om `Profile` gegevens te bewerken.
-    - [ ] Maak een view om het profiel te bekijken en bij te werken (vereist login).
-    - [ ] Maak een URL-patroon voor de profielpagina.
+- [x] **Wachtwoord Wijzigen:**
+    - [x] Gebruik Django's ingebouwde `PasswordChangeView`.
+    - [x] Maak templates voor het wijzigen en de bevestiging.
+    - [x] Maak URL-patronen.
+- [x] **Profiel Beheer:**
+    - [x] Maak een formulier om `Profile` gegevens te bewerken.
+    - [x] Maak een view om het profiel te bekijken en bij te werken (vereist login).
+    - [x] Maak een URL-patroon voor de profielpagina.
 - [x] **Eigen Profielpagina (Publiek):**
     - [x] Maak een view die het profiel van een specifieke gebruiker toont.
     - [x] Toon profielgegevens en lijst van leesacties van deze gebruiker.

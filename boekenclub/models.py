@@ -16,16 +16,7 @@ class Book(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} door {self.author}"
-
-    def average_score(self):
-        reads = self.read_set.all()
-        if reads.exists():
-            return round(sum(r.score for r in reads) / reads.count(), 2)
-        return None
-
-    def read_count(self):
-        return self.read_set.count()
+        return f"{self.title} by {self.author}"
 
 
 class Profile(models.Model):
@@ -35,7 +26,7 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return f"Profiel van {self.user.username}"
+        return f"Profiel off {self.user.username}"
 
 
 class Read(models.Model):

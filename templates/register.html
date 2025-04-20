@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-lg">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Form Header with gradient similar to navbar -->
+        <div class="bg-gradient-to-r from-indigo-900 to-purple-800 p-6 text-white">
+            <h1 class="text-2xl font-serif font-bold text-center">Create Your Account</h1>
+            <p class="text-center text-purple-200 mt-2">Join De Geletterde Kat community</p>
+        </div>
+
+        <!-- Step Navigation - Styled like the image with parallelograms -->
+        <div class="flex justify-center items-center py-4 px-2 relative">
+            <!-- First step parallelogram -->
+            <div id="step1Nav" class="step-nav active relative flex items-center h-10 cursor-pointer">
+                <div class="absolute inset-0 bg-purple-600 transform skew-x-12 shadow-md rounded-md"></div>
+                <span class="relative z-10 px-6 font-medium text-white">Account Info</span>
+            </div>
+
+            <!-- Dotted connector line -->
+            <div class="mx-2 flex space-x-1">
+                <span class="h-1 w-1 rounded-full bg-purple-400"></span>
+                <span class="h-1 w-1 rounded-full bg-purple-400"></span>
+                <span class="h-1 w-1 rounded-full bg-purple-400"></span>
+            </div>
+
+            <!-- Second step parallelogram -->
+            <div id="step2Nav" class="step-nav inactive relative flex items-center h-10 cursor-pointer">
+                <div class="absolute inset-0 border border-purple-300 transform skew-x-12 rounded-md"></div>
+                <span class="relative z-10 px-6 font-medium text-purple-500">Profile Info</span>
+            </div>
+        </div>
+
+        <!-- Password Requirements Notification -->
+        <div id="passwordRequirements" class="hidden fixed left-5 top-20 z-50 w-80 bg-indigo-100 rounded-lg shadow-xl border border-indigo-200 notification-slide">
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-lg px-4 py-2 flex justify-between items-center">
+                <span class="text-white font-medium">Password Requirements</span>
+                <button id="closeRequirements" class="text-white hover:text-purple-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4">
+                <ul class="list-disc pl-5 text-sm space-y-1 text-indigo-900">
+                    <li>Contain at least 8 characters</li>
+                    <li>Not be too similar to your personal information</li>
+                    <li>Not be a commonly used password</li>
+                    <li>Not be entirely numeric</li>
+                </ul>
+            </div>
+        </div>
+
+        <form id="registerForm" method="POST">
+            {% csrf_token %}
+
+            <!-- Step 1: User Info -->
+            <div id="step1" class="p-6">
+                <div class="space-y-4">
+                    <!-- Username field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ user_form.username.label }}
+                        </label>
+                        {{ user_form.username }}
+                        {% if user_form.username.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ user_form.username.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ user_form.email.label }}
+                        </label>
+                        {{ user_form.email }}
+                        {% if user_form.email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ user_form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ user_form.password1.label }}
+                        </label>
+                        {{ user_form.password1 }}
+                        {% if user_form.password1.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ user_form.password1.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ user_form.password2.label }}
+                        </label>
+                        {{ user_form.password2 }}
+                        {% if user_form.password2.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ user_form.password2.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Profile Info -->
+            <div id="step2" class="p-6 hidden">
+                <div class="space-y-4">
+                    <!-- Bio field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ profile_form.bio_text.label }}
+                        </label>
+                        {{ profile_form.bio_text }}
+                        {% if profile_form.bio_text.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ profile_form.bio_text.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- City field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ profile_form.city.label }}
+                        </label>
+                        {{ profile_form.city }}
+                        {% if profile_form.city.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ profile_form.city.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date of Birth field -->
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            {{ profile_form.date_of_birth.label }}
+                        </label>
+                        {{ profile_form.date_of_birth }}
+                        {% if profile_form.date_of_birth.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ profile_form.date_of_birth.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between items-center">
+                <button type="button" id="prevBtn" class="hidden text-purple-700 hover:text-indigo-900 font-medium flex items-center transition-all duration-300 transform hover:-translate-x-1">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="flex space-x-3">
+                    <button type="button" id="nextBtn" class="bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white py-2 px-4 rounded-md transition-all duration-300 transform hover:translate-x-1 flex items-center">
+                        Next
+                        <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+
+                    <button type="submit" id="submitBtn" class="hidden bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white py-2 px-4 rounded-md transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md flex items-center">
+                        Create Account
+                        <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Already have an account? -->
+        <div class="text-center p-4 bg-gray-50 border-t border-gray-200">
+            <p class="text-gray-600">
+                Already have an account?
+                <a href="{% url 'login' %}" class="text-purple-700 hover:text-indigo-900 font-medium">
+                    Log in
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Add wavy text effect to match the image */
+    .step-nav span {
+        position: relative;
+        display: inline-block;
+    }
+
+    .step-nav.active span {
+        background: linear-gradient(
+            to right,
+            #ffffff 0%,
+            #f3e8ff 20%,
+            #ffffff 40%,
+            #f3e8ff 60%,
+            #ffffff 80%,
+            #f3e8ff 100%
+        );
+        background-size: 200% auto;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+        to {
+            background-position: 200% center;
+        }
+    }
+
+    /* Sleek, flat parallelogram shape */
+    .step-nav {
+        transition: all 0.3s ease;
+    }
+
+    .step-nav.inactive:hover .absolute {
+        border-color: #a78bfa;
+    }
+
+    .step-nav.inactive:hover span {
+        color: #8b5cf6;
+    }
+
+    /* Notification animation */
+    .notification-slide {
+        animation: slideIn 0.4s ease-out forwards;
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Error notification style */
+    .error-notification {
+        background-color: #fee2e2;
+        border-color: #fecaca;
+    }
+
+    .error-notification .bg-gradient-to-r {
+        background: linear-gradient(to right, #dc2626, #ef4444);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step1Nav = document.getElementById('step1Nav');
+        const step2Nav = document.getElementById('step2Nav');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const passwordField = document.getElementById('{{ user_form.password1.id_for_label }}');
+        const passwordRequirements = document.getElementById('passwordRequirements');
+        const closeRequirements = document.getElementById('closeRequirements');
+        const registerForm = document.getElementById('registerForm');
+
+        // Step tracking
+        let currentStep = 1;
+
+        // Prevent form submission on Enter key in step 1
+        const step1Inputs = step1.querySelectorAll('input');
+        step1Inputs.forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    nextBtn.click();
+                }
+            });
+        });
+
+        // Password field focus handling
+        if (passwordField && passwordRequirements) {
+            passwordField.addEventListener('focus', function() {
+                passwordRequirements.classList.remove('hidden');
+            });
+
+            passwordField.addEventListener('blur', function() {
+                setTimeout(() => {
+                    if (!passwordRequirements.contains(document.activeElement)) {
+                        passwordRequirements.classList.add('hidden');
+                    }
+                }, 100);
+            });
+
+            closeRequirements.addEventListener('click', function() {
+                passwordRequirements.classList.add('hidden');
+            });
+        }
+
+        // Next button handler
+        nextBtn.addEventListener('click', function() {
+            if (currentStep === 1) {
+                // Move to step 2
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+                currentStep = 2;
+
+                // Update step navigation
+                step1Nav.classList.remove('active');
+                step1Nav.classList.add('inactive');
+                step2Nav.classList.remove('inactive');
+                step2Nav.classList.add('active');
+
+                // Update styling for parallelograms
+                step1Nav.querySelector('.absolute').classList.remove('bg-purple-600');
+                step1Nav.querySelector('.absolute').classList.add('border', 'border-purple-300');
+                step1Nav.querySelector('span').classList.add('text-purple-500');
+                step1Nav.querySelector('span').classList.remove('text-white');
+
+                step2Nav.querySelector('.absolute').classList.add('bg-purple-600');
+                step2Nav.querySelector('.absolute').classList.remove('border', 'border-purple-300');
+                step2Nav.querySelector('span').classList.remove('text-purple-500');
+                step2Nav.querySelector('span').classList.add('text-white');
+
+                // Smooth visual transition effect
+                step2.style.opacity = '0';
+                setTimeout(() => {
+                    step2.style.opacity = '1';
+                    step2.style.transition = 'opacity 300ms';
+                }, 50);
+            }
+        });
+
+        // Previous button handler
+        prevBtn.addEventListener('click', function() {
+            if (currentStep === 2) {
+                // Move back to step 1
+                step2.classList.add('hidden');
+                step1.classList.remove('hidden');
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+                currentStep = 1;
+
+                // Update step navigation
+                step2Nav.classList.remove('active');
+                step2Nav.classList.add('inactive');
+                step1Nav.classList.remove('inactive');
+                step1Nav.classList.add('active');
+
+                // Update styling for parallelograms
+                step2Nav.querySelector('.absolute').classList.remove('bg-purple-600');
+                step2Nav.querySelector('.absolute').classList.add('border', 'border-purple-300');
+                step2Nav.querySelector('span').classList.add('text-purple-500');
+                step2Nav.querySelector('span').classList.remove('text-white');
+
+                step1Nav.querySelector('.absolute').classList.add('bg-purple-600');
+                step1Nav.querySelector('.absolute').classList.remove('border', 'border-purple-300');
+                step1Nav.querySelector('span').classList.remove('text-purple-500');
+                step1Nav.querySelector('span').classList.add('text-white');
+
+                // Smooth visual transition effect
+                step1.style.opacity = '0';
+                setTimeout(() => {
+                    step1.style.opacity = '1';
+                    step1.style.transition = 'opacity 300ms';
+                }, 50);
+            }
+        });
+
+        // Click on navigation elements
+        step1Nav.addEventListener('click', function() {
+            if (currentStep === 2) {
+                prevBtn.click();
+            }
+        });
+
+        step2Nav.addEventListener('click', function() {
+            if (currentStep === 1) {
+                nextBtn.click();
+            }
+        });
+    });
+</script>
+{% endblock %}

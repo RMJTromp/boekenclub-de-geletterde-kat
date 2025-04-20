@@ -1,7 +1,116 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-  <h1>Welcome to the Home Page</h1>
-  <p>This is the main content of the home page.</p>
-{% endblock %}
+<div class="max-w-6xl mx-auto">
+  <!-- Header with photos - redesigned layout -->
+  <div class="relative py-10">
+    <div class="absolute inset-0 z-0 bg-gradient-to-r from-indigo-100 to-purple-100 opacity-50 rounded-xl"></div>
 
+    <!-- Photos section with better alignment -->
+    <div class="relative z-10 flex flex-col items-center">
+      <!-- Photo gallery -->
+      <div class="flex items-center justify-center space-x-4 md:space-x-8">
+        <div class="flex-shrink-0">
+          <div class="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg transform hover:scale-105 transition duration-300">
+            <!-- Better object positioning for left image -->
+            <img src="{% static 'images/classmate-1.jpg' %}" alt="Teamlid 1" class="w-full h-full object-cover object-center">
+          </div>
+        </div>
+
+        <div class="flex-shrink-0">
+          <div class="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 border-white shadow-lg transform hover:scale-105 transition duration-300">
+            <img src="{% static 'images/together.jpg' %}" alt="Samen" class="w-full h-full object-cover">
+          </div>
+        </div>
+
+        <div class="flex-shrink-0">
+          <div class="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg transform hover:scale-105 transition duration-300">
+            <img src="{% static 'images/classmate-2.jpg' %}" alt="Teamlid 2" class="w-full h-full object-cover">
+          </div>
+        </div>
+      </div>
+
+      <!-- Elegant name banner instead of purple blob -->
+      <div class="mt-6 bg-white shadow-md px-8 py-3 rounded-lg border-l-4 border-indigo-600 flex items-center">
+        <div class="mr-3 text-indigo-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-indigo-900 font-medium">Raygell</span>
+          <span class="text-sm text-indigo-500">(je leerlingnummer hier pleaseee :3)</span>
+          <span class="mx-2 text-gray-400">&</span>
+          <span class="text-indigo-900 font-medium">Joran</span>
+          <span class="text-sm text-indigo-500">(1100509)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content with card -->
+  <div class="mt-10 bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="md:flex">
+      <div class="p-8">
+        <div class="text-center mb-8">
+          <h1 class="text-3xl font-serif font-bold text-indigo-900">Welkom bij De Geletterde Kat</h1>
+          <div class="h-1 w-24 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-2"></div>
+        </div>
+
+        <div class="prose max-w-none">
+          <p class="text-gray-700 mb-6">
+            <span class="text-lg font-medium leading-relaxed">Bij De Geletterde Kat geloven we dat verhalen mensen verbinden.</span>
+            Onze boekenclub is opgericht door twee enthousiaste literatuurliefhebbers die hun passie voor lezen wilden delen
+            met anderen. We bieden een online platform waar lezers boeken kunnen ontdekken, bespreken en hun leesavonturen kunnen bijhouden.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-purple-50 p-6 rounded-lg border border-purple-100 transition-all hover:shadow-md">
+              <h2 class="text-xl font-bold text-indigo-900 mb-3">Over de Oprichters</h2>
+              <p class="text-gray-700 mb-4">
+                Als studenten informatica besloten we onze technische kennis te combineren met onze liefde voor literatuur.
+                Tijdens ons afstudeerproject aan de Hogeschool hebben we De Geletterde Kat ontwikkeld als een digitale
+                ontmoetingsplek voor boekenliefhebbers.
+              </p>
+              <p class="text-gray-700">
+                Met onze verschillende leesvoorkeuren – van klassieke literatuur tot moderne fantasy – vullen we elkaar
+                perfect aan en zorgen we voor een diverse selectie aanbevelingen.
+              </p>
+            </div>
+
+            <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-100 transition-all hover:shadow-md">
+              <h2 class="text-xl font-bold text-indigo-900 mb-3">Wat Wij Bieden</h2>
+              <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                <li>Een uitgebreide <strong>boekencatalogus</strong> met recensies</li>
+                <li>Persoonlijke <strong>leesprofiel</strong> om je voortgang bij te houden</li>
+                <li>Online <strong>discussiegroepen</strong> voor verschillende genres</li>
+                <li>Maandelijkse <strong>leesuitdagingen</strong> met prijzen</li>
+                <li>Connectie met andere <strong>literatuurliefhebbers</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-indigo-900 to-purple-800 rounded-lg shadow-lg p-6 text-white">
+            <h2 class="text-xl font-bold mb-4">Doe Mee aan Onze Gemeenschap</h2>
+            <p class="mb-4">
+              Of je nu een fanatieke lezer bent of juist inspiratie zoekt om meer te gaan lezen – bij De Geletterde Kat
+              is iedereen welkom. Maak vandaag nog een profiel aan en ontdek wat onze boekenclub voor jou kan betekenen.
+            </p>
+            <div class="flex justify-center mt-4">
+              <a href="{% url 'register' %}" class="bg-white text-indigo-800 px-6 py-2 rounded-md shadow hover:bg-purple-50 transition duration-300 font-medium">
+                Word Lid
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-8 text-center text-gray-500 italic">
+            <p>"Een boek is een droom die je in je handen houdt."</p>
+            <p class="text-sm">— Neil Gaiman</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
