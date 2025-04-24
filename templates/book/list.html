@@ -2,44 +2,6 @@
 {% load static %}
 
 {% block content %}
-<style>
-    details.dropdown {
-        color: #71717a;
-        position: relative;
-
-        > summary {list-style: none; cursor: pointer;}
-        > summary::-webkit-details-marker {display: none;}
-        > summary::marker {display: none;}
-        > summary::-moz-list-bullet {list-style-type: none;}
-
-        > ul {
-            position: absolute;
-            list-style: none;
-            background-color: white;
-            z-index: 10;
-            top: 1.1lh;
-            right: .25lh;
-            padding: 4px 0;
-            box-shadow: 1px 1px 10px #0000002b;
-            border-radius: 5px;
-            overflow: clip;
-
-            > li:not(:has(> a)), > li:has(>a) > a {
-                padding: 3px 10px;
-
-                &:hover {
-                    background-color: #ebebeb;
-                    color: black;
-                }
-
-                &:is(a) {
-                    cursor: pointer;
-                    display: block;
-                }
-            }
-        }
-    }
-</style>
 <div class="max-w-6xl mx-auto flex gap-4 flex-col">
     {% if books.pending.count > 0 and user.is_superuser %}
         <section>
