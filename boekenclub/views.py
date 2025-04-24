@@ -55,7 +55,7 @@ def profile_view(request, username):
     else:
         profile = Profile.objects.get(user=request.user)
 
-    actions = Read.objects.filter(user=profile.user)
+    actions = Read.objects.filter(user=profile.user).order_by('-id')
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
@@ -246,7 +246,7 @@ def book_view(request, pk):
         messages.error(request, "This book is not available for viewing.")
         return redirect('home')
 
-    reads = Read.objects.filter(book=book).order_by('-date')
+    reads = Read.objects.filter(book=book).order_by('-id')
     average_score = reads.aggregate(models.Avg('score'))['score__avg'] or 0
     rated = Read.objects.filter(book=book, user=request.user).exists() if request.user.is_authenticated else False
     return render(request, "book/details.html",
@@ -305,3 +305,12 @@ def delete_read_view(request, read_id):
         messages.error(request, f"Error deleting read: {str(e)}")
 
     return redirect('profile', username=request.user.username)
+
+def newsfeed(request):
+    if request.method == "POST":
+        messages.error(request, "Invalid request method.")
+        return redirect('newsfeed')
+
+    reads = Read.objects.all().order_by('-id')
+
+    return render(request, "newsfeed.html", {'reads': reads})

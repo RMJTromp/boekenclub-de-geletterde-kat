@@ -22,4 +22,5 @@ urlpatterns = [
     path('book/<int:pk>/unrate', views.book_unrate, name='book_unrate'),
     path('rating/<int:pk>/delete', views.rating_delete, name='rating_delete'),
     path('delete_read/<int:read_id>/', views.delete_read_view, name='delete_read'),
+    path('newsfeed', views.newsfeed, name='newsfeed'),
 ]
