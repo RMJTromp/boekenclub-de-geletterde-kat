@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 
-from .models import Profile
+from .models import Profile, Book
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -48,3 +48,34 @@ class UserForm(UserCreationForm):
         self.fields['email'].label = 'Email Address'
         self.fields['password1'].label = 'Password'
         self.fields['password2'].label = 'Confirm Password'
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'genre', 'number_of_pages']
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Enter book title',
+                'class': 'mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            }),
+            'author': forms.TextInput(attrs={
+                'placeholder': 'Enter author name',
+                'class': 'mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            }),
+            'genre': forms.TextInput(attrs={
+                'placeholder': 'Enter book genre',
+                'class': 'mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            }),
+            'number_of_pages': forms.NumberInput(attrs={
+                'placeholder': 'Number of pages',
+                'class': 'mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            }),
+        }
+
+        labels = {
+            'title': 'Book Title',
+            'author': 'Author',
+            'genre': 'Genre',
+            'number_of_pages': 'Number of Pages',
+        }

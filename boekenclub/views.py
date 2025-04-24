@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
     update_session_auth_hash
 from django.contrib import messages  # Correct import for messages
 
-from boekenclub.forms import ProfileForm, UserForm
+from boekenclub.forms import ProfileForm, UserForm, BookForm
 from boekenclub.models import Profile, Read
 
 
@@ -150,3 +150,21 @@ def delete_profile_view(request, user_id):
         messages.error(request, f"Error deleting user: {str(e)}")
 
     return redirect('manage_users')
+
+
+@login_required
+def book_create(request):
+    if request.method == "POST":
+        book_form = BookForm(request.POST)
+
+        if book_form.is_valid():
+            book_form.save()
+
+            messages.success(request, "Book created successfully and pending approval!")
+            return redirect('home')
+        else:
+            messages.error(request, "An error occurred while creating the book. Please check the form.")
+    else:
+        book_form = BookForm()
+
+    return render(request, "book/create.html", {'form': book_form})
