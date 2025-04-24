@@ -54,13 +54,13 @@
         - [x] Bestaande boeken aan te passen.
         - [x] Bestaande boeken te verwijderen.
     - [x] Maak URL-patronen (indien nodig).
-- [ ] **Newsfeed:**
+- [x] **Newsfeed:**
     - [x] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
     - [x] Maak een template die de leesacties toont.
     - [x] Maak gebruikersnaam klikbaar naar profielpagina.
-    - [ ] Maak boektitel klikbaar naar boek detailpagina.
+    - [x] Maak boektitel klikbaar naar boek detailpagina.
     - [x] Maak een URL-patroon.
-- [ ] **Boek Detailpagina:**
+- [x] **Boek Detailpagina:**
     - [x] Maak een view die details van één boek toont.
     - [x] Toon boekdetails.
     - [x] Bereken en toon aantal keer gelezen.
