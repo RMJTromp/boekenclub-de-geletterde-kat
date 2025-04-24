@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, login, \
     update_session_auth_hash
 from django.contrib import messages  # Correct import for messages
+from urllib3 import request
 
 from boekenclub.forms import ProfileForm, UserForm
 from boekenclub.models import Profile, Read
@@ -150,3 +151,19 @@ def delete_profile_view(request, user_id):
         messages.error(request, f"Error deleting user: {str(e)}")
 
     return redirect('manage_users')
+
+
+@login_required
+def delete_read_view(request, read_id):
+    if request.method != 'POST':
+        messages.error(request, "Invalid request method.")
+        return redirect('profile', username=request.user.username)
+    try:
+        read = get_object_or_404(Read, id=read_id)
+        title = read.book.title
+        read.delete()
+        messages.success(request, f"'{title}' has been deleted successfully.")
+    except Exception as e:
+        messages.error(request, f"Error deleting read: {str(e)}")
+
+    return redirect('profile', username=request.user.username)
