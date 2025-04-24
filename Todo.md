@@ -40,20 +40,20 @@
 
 **Fase 2: Boeken & Community/Admin (Persoon B)**
 
-- [ ] **Boek Toevoegen (Gebruiker):**
-    - [ ] Maak een formulier voor het toevoegen van een `Book`.
-    - [ ] Maak een view die het formulier verwerkt (`approved=False`). (Vereist login).
-    - [ ] Maak een URL-patroon.
-- [ ] **Admin - Boek Goedkeuren:**
-    - [ ] Maak een view/admin interface voor niet-goedgekeurde boeken.
-    - [ ] Implementeer logica om boek goed te keuren (`approved=True`, `approvedBy=admin`).
-    - [ ] Maak URL-patronen (indien nodig).
+- [x] **Boek Toevoegen (Gebruiker):**
+    - [x] Maak een formulier voor het toevoegen van een `Book`.
+    - [x] Maak een view die het formulier verwerkt (`approved=False`). (Vereist login).
+    - [x] Maak een URL-patroon.
+- [x] **Admin - Boek Goedkeuren:**
+    - [x] Maak een view/admin interface voor niet-goedgekeurde boeken.
+    - [x] Implementeer logica om boek goed te keuren (`approved=True`, `approvedBy=admin`).
+    - [x] Maak URL-patronen (indien nodig).
 - [ ] **Admin - Boek Management:**
     - [ ] Maak views/admin interface voor admins om:
         - [ ] Nieuwe boeken direct toe te voegen (`approved=True`).
-        - [ ] Bestaande boeken aan te passen.
-        - [ ] Bestaande boeken te verwijderen.
-    - [ ] Maak URL-patronen (indien nodig).
+        - [x] Bestaande boeken aan te passen.
+        - [x] Bestaande boeken te verwijderen.
+    - [x] Maak URL-patronen (indien nodig).
 - [ ] **Newsfeed:**
     - [ ] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
     - [ ] Maak een template die de leesacties toont.
