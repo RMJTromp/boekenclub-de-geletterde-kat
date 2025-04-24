@@ -55,18 +55,18 @@
         - [x] Bestaande boeken te verwijderen.
     - [x] Maak URL-patronen (indien nodig).
 - [ ] **Newsfeed:**
-    - [ ] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
-    - [ ] Maak een template die de leesacties toont.
-    - [ ] Maak gebruikersnaam klikbaar naar profielpagina.
+    - [x] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
+    - [x] Maak een template die de leesacties toont.
+    - [x] Maak gebruikersnaam klikbaar naar profielpagina.
     - [ ] Maak boektitel klikbaar naar boek detailpagina.
-    - [ ] Maak een URL-patroon.
+    - [x] Maak een URL-patroon.
 - [ ] **Boek Detailpagina:**
-    - [ ] Maak een view die details van één boek toont.
-    - [ ] Toon boekdetails.
-    - [ ] Bereken en toon aantal keer gelezen.
-    - [ ] Bereken en toon gemiddelde score.
-    - [ ] Voeg knop/link "Leesactie toevoegen" toe.
-    - [ ] Maak een URL-patroon (bijv. `/boek/<int:pk>/`).
+    - [x] Maak een view die details van één boek toont.
+    - [x] Toon boekdetails.
+    - [x] Bereken en toon aantal keer gelezen.
+    - [x] Bereken en toon gemiddelde score.
+    - [x] Voeg knop/link "Leesactie toevoegen" toe.
+    - [x] Maak een URL-patroon (bijv. `/boek/<int:pk>/`).
 - [ ] **Admin - Leesacties Verwijderen:**
     - [ ] Maak een view/admin interface waar admin leesacties kan verwijderen.
     - [ ] Implementeer de logica voor het verwijderen.
