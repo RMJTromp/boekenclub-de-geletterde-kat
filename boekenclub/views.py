@@ -7,13 +7,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, login, \
     update_session_auth_hash
 from django.contrib import messages  # Correct import for messages
-from urllib3 import request
 
 from boekenclub.forms import ProfileForm, UserForm, BookForm
 from boekenclub.models import Profile, Read, Book
 
 
-@login_required
 def home(request):
     return render(request, "index.html")
 

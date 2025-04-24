@@ -67,10 +67,10 @@
     - [x] Bereken en toon gemiddelde score.
     - [x] Voeg knop/link "Leesactie toevoegen" toe.
     - [x] Maak een URL-patroon (bijv. `/boek/<int:pk>/`).
-- [ ] **Admin - Leesacties Verwijderen:**
-    - [ ] Maak een view/admin interface waar admin leesacties kan verwijderen.
-    - [ ] Implementeer de logica voor het verwijderen.
-    - [ ] Maak URL-patronen (indien nodig).
+- [x] **Admin - Leesacties Verwijderen:**
+    - [x] Maak een view/admin interface waar admin leesacties kan verwijderen.
+    - [x] Implementeer de logica voor het verwijderen.
+    - [x] Maak URL-patronen (indien nodig).
 
 **Fase 3: Leesacties & Afronding (Persoon A & B - Afstemming nodig)**
 
