@@ -39,7 +39,7 @@ class Profile(models.Model):
 class Read(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
     SCORE_CHOICES = [(i, str(i)) for i in range(1, 6)]
     score = models.IntegerField(choices=SCORE_CHOICES)
 

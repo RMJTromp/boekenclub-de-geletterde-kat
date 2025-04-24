@@ -2,6 +2,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, login, \
     update_session_auth_hash
@@ -237,3 +238,40 @@ def book_edit(request, pk):
         book_form = BookForm(instance=book)
 
     return render(request, "book/create.html", {'form': book_form, 'edit': True})
+
+
+def book_view(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    reads = Read.objects.filter(book=book).order_by('-date')
+    average_score = reads.aggregate(models.Avg('score'))['score__avg'] or 0
+    rated = Read.objects.filter(book=book, user=request.user).exists() if request.user.is_authenticated else False
+    return render(request, "book/details.html",
+                  {'book': book, 'reads': reads, 'average_score': average_score, 'rated': rated})
+
+
+def book_rate(request, pk, rating):
+    print({'pk': pk, 'rating': rating})
+    book = get_object_or_404(Book, pk=pk)
+
+    if rating not in range(1, 6):
+        messages.error(request, "Invalid rating. Please choose a value between 1 and 5.")
+        return redirect('book_view', pk=pk)
+
+    read, created = Read.objects.get_or_create(book=book, user=request.user, score=rating)
+    read.score = rating
+    read.save()
+
+    messages.success(request, f"You rated '{book.title}' with a score of {rating}!")
+    return redirect('book_view', pk=pk)
+
+def book_unrate(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    try:
+        read = Read.objects.get(book=book, user=request.user)
+        read.delete()
+        messages.success(request, f"You have removed your rating for '{book.title}'.")
+    except Read.DoesNotExist:
+        messages.error(request, "You haven't rated this book yet.")
+
+    return redirect('book_view', pk=pk)
