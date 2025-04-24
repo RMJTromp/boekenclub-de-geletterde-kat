@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto flex gap-4 flex-col">
+    {% if books.pending.count > 0 and user.is_superuser %}
+        <section>
+            <div class="bg-white rounded-md shadow-lg px-4 py-2 flex justify-between items-center">
+            {% if books.pending.count > 1 %}
+                <span>There are <b>{{ books.pending.count }}</b> books awaiting approval.</span>
+            {% else %}
+                <span>There is <b>{{ books.pending.count }}</b> book awaiting approval.</span>
+            {% endif %}
+            <a href="{% url 'books_review' %}" class="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-4 py-1 rounded shadow transition duration-300 flex">Review</a>
+        </div>
+        </section>
+    {% endif %}
+
+
+    {% if user.is_authenticated and books.private.count > 0 %}
+        <section class="flex flex-col gap-1">
+            <span class="text-[#71717a] text-sm ml-1" style="font-weight: 500">Your Submissions ({{ books.private.count }})</span>
+            <div class="flex flex-col gap-2">
+                {% for book in books.private %}
+                    <div class="bg-white rounded-md shadow-lg px-4 py-2 flex justify-between items-center">
+                        <div class="flex justify-between items-center flex flex-row gap-4 justify-start items-start">
+                            <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/40/60" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="40" height="60">
+                            <div>
+                                <a class="hover:underline" href="{% url 'book_view' book.id %}"><b>{{ book.title }}</b> <small>({{ book.genre }})</small></a>
+                                <small class="block">by {{ book.author }}</small>
+                            </div>
+                        </div>
+                            <div class="flex flex-row gap-2" style="align-self: start">
+                                 {% if book.approved %}
+                                     <span class="text-green-500">Approved</span>
+                                 {% else %}
+                                     <span class="text-gray-500">Pending</span>
+                                 {% endif %}
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <section>
+        <div class="flex flex-row justify-between items-center mb-2">
+            <span class="text-[#71717a] text-sm ml-1" style="font-weight: 500">Public Submissions ({{ books.public.count }})</span>
+            <a href="{% url 'book_create' %}" class="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-4 py-1 rounded shadow transition duration-300 flex">Submit a Book</a>
+        </div>
+        {% if books.public.count > 0 %}
+            <div class="flex flex-col gap-2">
+                {% for book in books.public %}
+                    <div class="bg-white rounded-md shadow-lg px-4 py-2 flex justify-between items-center">
+                        <div class="flex justify-between items-center flex flex-row gap-4 justify-start items-start">
+                            <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/40/60" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="40" height="60">
+                            <div>
+                                <a href="{% url 'book_view' book.id %}" class="hover:underline"><b>{{ book.title }}</b> <small>({{ book.genre }})</small></a>
+                                <small class="block">by {{ book.author }}</small>
+                            </div>
+                        </div>
+                        {% if user.is_superuser %}
+                            <div class="flex flex-row gap-2" style="align-self: start">
+                                 <details class="dropdown">
+                                     <summary>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="1lh" width="1lh" viewBox="0 0 128 512"><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" fill="currentColor"/></svg>
+                                     </summary>
+                                     <ul>
+                                         <li><a href="{% url 'book_edit' book.id %}">Edit</a></li>
+                                         <li><a href="{% url 'book_delete' book.id %}">Delete</a></li>
+                                     </ul>
+                                 </details>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-[#71717a] text-center mt-10">
+                <p>There aren't any books to be displayed at the moment.</p>
+                <p>Come back at a later time, or consider submitting one.</p>
+            </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

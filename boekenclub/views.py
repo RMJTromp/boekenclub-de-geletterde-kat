@@ -2,14 +2,15 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, PasswordChangeForm
 from django.contrib.auth.models import User
+from django.db import models
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout, login, \
     update_session_auth_hash
 from django.contrib import messages  # Correct import for messages
 from urllib3 import request
 
-from boekenclub.forms import ProfileForm, UserForm
-from boekenclub.models import Profile, Read
+from boekenclub.forms import ProfileForm, UserForm, BookForm
+from boekenclub.models import Profile, Read, Book
 
 
 @login_required
@@ -154,6 +155,145 @@ def delete_profile_view(request, user_id):
 
 
 @login_required
+def book_create(request):
+    if request.method == "POST":
+        book_form = BookForm(request.POST)
+        book_form.instance.submitted_by = request.user
+
+        if book_form.is_valid():
+            book = book_form.save(commit=False)
+
+            if 'force' in request.POST and request.POST['force'] == '1' and request.user.is_superuser:
+                book.approved = True
+                book.approved_by = request.user
+
+            book.save()
+
+            messages.success(request, "Book created successfully and pending approval!" if not book.approved else "Book created successfully!")
+            return redirect('book_list')
+        else:
+            messages.error(request, "An error occurred while creating the book. Please check the form.")
+    else:
+        book_form = BookForm()
+
+    return render(request, "book/create.html", {'form': book_form, 'edit': False})
+
+
+def books_list(request):
+    if request.method == "POST":
+        messages.error(request, "Invalid request method.")
+        return redirect('books_list')
+
+    books = Book.objects.all()
+
+    ctx = {
+        "public": books.filter(approved=True),
+        "pending": books.filter(approved=False),
+        "private": books.filter(submitted_by=request.user) if request.user.is_authenticated else [],
+    }
+
+    return render(request, "book/list.html", {'books': ctx})
+
+@staff_member_required
+def books_review(request):
+    if request.method == "POST":
+        messages.error(request, "Invalid request method.")
+        return redirect('books_review')
+
+    books = Book.objects.all()
+
+    return render(request, "book/review.html", {'books': books.filter(approved=False)})
+
+@staff_member_required
+def book_accept(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    book.approved = True
+    book.approved_by = request.user
+    book.save()
+
+    messages.success(request, f"Book '{book.title}' has been approved!")
+    return redirect('books_review')
+
+@staff_member_required
+def book_delete(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    book.delete()
+
+    messages.success(request, f"Book '{book.title}' has been deleted!")
+    return redirect('book_list')
+
+@staff_member_required
+def book_edit(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == "POST":
+        book_form = BookForm(request.POST, instance=book)
+
+        if book_form.is_valid():
+            book_form.save()
+            messages.success(request, "Book updated successfully!")
+            return redirect('book_list')
+        else:
+            messages.error(request, "An error occurred while updating the book. Please check the form.")
+    else:
+        book_form = BookForm(instance=book)
+
+    return render(request, "book/create.html", {'form': book_form, 'edit': True})
+
+
+def book_view(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if not book.approved and (not request.user.is_authenticated or (book.submitted_by != request.user and not request.user.is_superuser)):
+        messages.error(request, "This book is not available for viewing.")
+        return redirect('home')
+
+    reads = Read.objects.filter(book=book).order_by('-date')
+    average_score = reads.aggregate(models.Avg('score'))['score__avg'] or 0
+    rated = Read.objects.filter(book=book, user=request.user).exists() if request.user.is_authenticated else False
+    return render(request, "book/details.html",
+                  {'book': book, 'reads': reads, 'average_score': average_score, 'rated': rated})
+
+
+@login_required
+def book_rate(request, pk, rating):
+    print({'pk': pk, 'rating': rating})
+    book = get_object_or_404(Book, pk=pk)
+
+    if rating not in range(1, 6):
+        messages.error(request, "Invalid rating. Please choose a value between 1 and 5.")
+        return redirect('book_view', pk=pk)
+
+    read, created = Read.objects.get_or_create(book=book, user=request.user, score=rating)
+    read.score = rating
+    read.save()
+
+    messages.success(request, f"You rated '{book.title}' with a score of {rating}!")
+    return redirect('book_view', pk=pk)
+
+@login_required
+def book_unrate(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    try:
+        read = Read.objects.get(book=book, user=request.user)
+        read.delete()
+        messages.success(request, f"You have removed your rating for '{book.title}'.")
+    except Read.DoesNotExist:
+        messages.error(request, "You haven't rated this book yet.")
+
+    return redirect('book_view', pk=pk)
+
+@staff_member_required
+def rating_delete(request, pk):
+    read = get_object_or_404(Read, pk=pk)
+    book = read.book
+    user = read.user
+    read.delete()
+    messages.success(request, f"You have removed {user.username}'s rating for '{book.title}'.")
+    return redirect('book_view', pk=book.pk)
+
+
 def delete_read_view(request, read_id):
     if request.method != 'POST':
         messages.error(request, "Invalid request method.")

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    details.rating {
+        color: #71717a;
+        position: relative;
+
+        > summary {list-style: none; cursor: pointer;}
+        > summary::-webkit-details-marker {display: none;}
+        > summary::marker {display: none;}
+        > summary::-moz-list-bullet {list-style-type: none;}
+
+        > .stars {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+        }
+    }
+
+    .stars {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      overflow: hidden;
+      flex-direction: row-reverse;
+      height: auto;
+      position: relative;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 1px 1px 10px #0000002b;
+      padding: 0 1rem;
+      transform-origin: 100% 50%;
+      scale: 1.25;
+    }
+
+    .stars > a {
+      background: unset;
+      border: unset;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23e3e3e3' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 75%;
+      transition: .3s;
+    }
+
+    .stars > a:hover,
+    .stars > a:hover ~ a {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23d8b11e' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e");
+    }
+</style>
+<div class="max-w-6xl mx-auto flex gap-4 flex-col">
+    <section>
+        <div class="flex flex-row gap-4">
+            <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/200/300" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="200" height="300">
+            <div class="flex flex-col">
+                <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl" style="font-weight: bold; font-size: 2rem">{{ book.title }}</h1>
+                <p class="text-[#74747a]">by <span class="text-black">{{ book.author }}</span></p>
+
+                <br/>
+
+                <p class="text-[#74747a]">genre: <span class="text-black">{{ book.genre }}</span></p>
+                <p class="text-[#74747a]">pages: <span class="text-black">{{ book.number_of_pages }}</span></p>
+
+                <br/>
+
+                <p class="text-[#74747a]"><span class="text-black">{{ reads.count }}</span> other people have read this book</p>
+                <div class="flex items-center">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= average_score %}
+                            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        {% else %}
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="m-[auto_0_0]">
+                    <p class="text-[#74747a]">submitted by</p>
+                    <a class="text-black hover:underline inline-flex items-center gap-2 mb-2" href="{% url 'profile' book.submitted_by.username %}">
+                        <div class="rounded-full h-[1lh] w-[1lh]" style="background-color: #dddddd"></div>
+                        <span>{{ book.submitted_by.username }}</span>
+                    </a>
+                </div>
+            </div>
+
+            {% if book.approved %}
+                <div class="m-[0_0_0_auto]">
+                    {% if rated %}
+                        <a href="{% url 'book_unrate' book.id %}" class="bg-gradient-to-r from-gray-900/75 to-gray-800/75 text-white px-4 py-1 rounded shadow transition duration-300 flex">Mark as Unread</a>
+                    {% else %}
+                        <details class="rating">
+                            <summary>
+                                <span class="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-4 py-1 rounded shadow transition duration-300 flex cursor-pointer">Mark as Read</span>
+                            </summary>
+                            <div class="stars">
+                                <a href="{% url 'book_rate' book.id 5 %}"></a>
+                                <a href="{% url 'book_rate' book.id 4 %}"></a>
+                                <a href="{% url 'book_rate' book.id 3 %}"></a>
+                                <a href="{% url 'book_rate' book.id 2 %}"></a>
+                                <a href="{% url 'book_rate' book.id 1 %}"></a>
+                            </div>
+                        </details>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <section>
+        <span class="text-[#71717a] text-sm ml-1" style="font-weight: 500">Reads ({{ reads.count }})</span>
+        <div>
+            {% for read in reads %}
+                <div class="bg-white rounded-md shadow-lg px-4 py-2 flex justify-start gap-2 items-center">
+                    <div class="rounded-full h-[1.5lh] w-[1.5lh]" style="background-color: #dddddd"></div>
+                    <div class="flex flex-col" style="align-self: start">
+                        <a href="{% url 'profile' read.user.username %}" class="hover:underline">{{ read.user.username }}</a>
+                        <div class="flex items-center">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= read.score %}
+                                    <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="m-[0_0_0_auto] flex gap-4">
+                        <span class="px-3 py-1 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-800 rounded-full text-sm font-medium">
+                            {{ read.date|date:"M d, Y" }}
+                        </span>
+                        {% if user.is_superuser %}
+                            <a href="{% url 'rating_delete' read.id %}" class="grid place-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width=".75lh" height=".75lh" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z" fill="currentColor"/></svg>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
