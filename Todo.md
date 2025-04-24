@@ -40,33 +40,33 @@
 
 **Fase 2: Boeken & Community/Admin (Persoon B)**
 
-- [ ] **Boek Toevoegen (Gebruiker):**
-    - [ ] Maak een formulier voor het toevoegen van een `Book`.
-    - [ ] Maak een view die het formulier verwerkt (`approved=False`). (Vereist login).
-    - [ ] Maak een URL-patroon.
-- [ ] **Admin - Boek Goedkeuren:**
-    - [ ] Maak een view/admin interface voor niet-goedgekeurde boeken.
-    - [ ] Implementeer logica om boek goed te keuren (`approved=True`, `approvedBy=admin`).
-    - [ ] Maak URL-patronen (indien nodig).
-- [ ] **Admin - Boek Management:**
-    - [ ] Maak views/admin interface voor admins om:
-        - [ ] Nieuwe boeken direct toe te voegen (`approved=True`).
-        - [ ] Bestaande boeken aan te passen.
-        - [ ] Bestaande boeken te verwijderen.
-    - [ ] Maak URL-patronen (indien nodig).
-- [ ] **Newsfeed:**
-    - [ ] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
-    - [ ] Maak een template die de leesacties toont.
-    - [ ] Maak gebruikersnaam klikbaar naar profielpagina.
-    - [ ] Maak boektitel klikbaar naar boek detailpagina.
-    - [ ] Maak een URL-patroon.
-- [ ] **Boek Detailpagina:**
-    - [ ] Maak een view die details van één boek toont.
-    - [ ] Toon boekdetails.
-    - [ ] Bereken en toon aantal keer gelezen.
-    - [ ] Bereken en toon gemiddelde score.
-    - [ ] Voeg knop/link "Leesactie toevoegen" toe.
-    - [ ] Maak een URL-patroon (bijv. `/boek/<int:pk>/`).
+- [x] **Boek Toevoegen (Gebruiker):**
+    - [x] Maak een formulier voor het toevoegen van een `Book`.
+    - [x] Maak een view die het formulier verwerkt (`approved=False`). (Vereist login).
+    - [x] Maak een URL-patroon.
+- [x] **Admin - Boek Goedkeuren:**
+    - [x] Maak een view/admin interface voor niet-goedgekeurde boeken.
+    - [x] Implementeer logica om boek goed te keuren (`approved=True`, `approvedBy=admin`).
+    - [x] Maak URL-patronen (indien nodig).
+- [x] **Admin - Boek Management:**
+    - [x] Maak views/admin interface voor admins om:
+        - [x] Nieuwe boeken direct toe te voegen (`approved=True`).
+        - [x] Bestaande boeken aan te passen.
+        - [x] Bestaande boeken te verwijderen.
+    - [x] Maak URL-patronen (indien nodig).
+- [x] **Newsfeed:**
+    - [x] Maak een view die alle `Read` objecten ophaalt (gesorteerd op datum).
+    - [x] Maak een template die de leesacties toont.
+    - [x] Maak gebruikersnaam klikbaar naar profielpagina.
+    - [x] Maak boektitel klikbaar naar boek detailpagina.
+    - [x] Maak een URL-patroon.
+- [x] **Boek Detailpagina:**
+    - [x] Maak een view die details van één boek toont.
+    - [x] Toon boekdetails.
+    - [x] Bereken en toon aantal keer gelezen.
+    - [x] Bereken en toon gemiddelde score.
+    - [x] Voeg knop/link "Leesactie toevoegen" toe.
+    - [x] Maak een URL-patroon (bijv. `/boek/<int:pk>/`).
 - [ ] **Admin - Leesacties Verwijderen:**
     - [ ] Maak een view/admin interface waar admin leesacties kan verwijderen.
     - [ ] Implementeer de logica voor het verwijderen.
