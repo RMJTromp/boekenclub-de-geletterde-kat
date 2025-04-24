@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto flex gap-4 flex-col">
+    {% if books.count > 0 %}
+        <section class="flex flex-col gap-1">
+            <span class="text-[#71717a] text-sm ml-1" style="font-weight: 500">Pending Submissions ({{ books.count }})</span>
+            <div class="flex flex-col gap-2">
+                {% for book in books %}
+                    <div class="bg-white rounded-md shadow-lg px-4 py-2 flex justify-between items-center">
+                        <div class="flex justify-between items-center flex flex-row gap-4 justify-start items-start">
+                            <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/40/60" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="40" height="60">
+                            <div>
+                                <span><b>{{ book.title }}</b> <small>({{ book.genre }})</small></span>
+                                <small class="block">by {{ book.author }}</small>
+                            </div>
+                        </div>
+                        <div class="flex flex-row gap-2" style="align-self: start">
+                            <a href="{% url 'book_accept' book.id %}" class="rounded py-1 px-4 text-white" style="font-weight: 500;background-color: oklch(72.3% 0.219 149.579)">Accept</a>
+                            <a href="{% url 'book_delete' book.id %}" class="rounded py-1 px-4 text-white" style="font-weight: 500;background-color: oklch(63.7% 0.237 25.331)">Reject</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% else %}
+        <section>
+            <div class="text-[#71717a] text-center">
+                <p>There aren't any books awaiting review.</p>
+                <div class="flex justify-center mt-8">
+                    <div class="flex justify-center flex-col gap-2">
+                        <a href="{% url 'book_list' %}" class="bg-gradient-to-r from-indigo-900 to-purple-800 text-white px-6 py-2 rounded shadow transition duration-300 flex hover:scale-[1.02]">Go Back</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+</div>
+{% endblock %}

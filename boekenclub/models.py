@@ -14,6 +14,13 @@ class Book(models.Model):
         on_delete=models.SET_NULL,
         related_name='approved_books'
     )
+    submitted_by = models.ForeignKey(
+        User,
+        null=False,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name='submitted_books'
+    )
 
     def __str__(self):
         return f"{self.title} by {self.author}"
