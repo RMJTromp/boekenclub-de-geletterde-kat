@@ -48,9 +48,9 @@
     - [x] Maak een view/admin interface voor niet-goedgekeurde boeken.
     - [x] Implementeer logica om boek goed te keuren (`approved=True`, `approvedBy=admin`).
     - [x] Maak URL-patronen (indien nodig).
-- [ ] **Admin - Boek Management:**
-    - [ ] Maak views/admin interface voor admins om:
-        - [ ] Nieuwe boeken direct toe te voegen (`approved=True`).
+- [x] **Admin - Boek Management:**
+    - [x] Maak views/admin interface voor admins om:
+        - [x] Nieuwe boeken direct toe te voegen (`approved=True`).
         - [x] Bestaande boeken aan te passen.
         - [x] Bestaande boeken te verwijderen.
     - [x] Maak URL-patronen (indien nodig).
