@@ -26,7 +26,7 @@
                         <div class="flex justify-between items-center flex flex-row gap-4 justify-start items-start">
                             <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/40/60" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="40" height="60">
                             <div>
-                                <span><b>{{ book.title }}</b> <small>({{ book.genre }})</small></span>
+                                <a class="hover:underline" href="{% url 'book_view' book.id %}"><b>{{ book.title }}</b> <small>({{ book.genre }})</small></a>
                                 <small class="block">by {{ book.author }}</small>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <div class="flex justify-between items-center flex flex-row gap-4 justify-start items-start">
                             <img src="https://picsum.photos/seed/{{ book.submitted_by.id }}.{{ book.id }}/40/60" alt="{{ book.title }}" class="aspect-[1/1.5] object-cover rounded-md" width="40" height="60">
                             <div>
-                                <span><b>{{ book.title }}</b> <small>({{ book.genre }})</small></span>
+                                <a href="{% url 'book_view' book.id %}" class="hover:underline"><b>{{ book.title }}</b> <small>({{ book.genre }})</small></a>
                                 <small class="block">by {{ book.author }}</small>
                             </div>
                         </div>

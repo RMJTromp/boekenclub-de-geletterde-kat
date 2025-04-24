@@ -242,6 +242,11 @@ def book_edit(request, pk):
 
 def book_view(request, pk):
     book = get_object_or_404(Book, pk=pk)
+
+    if not book.approved and (not request.user.is_authenticated or (book.submitted_by != request.user and not request.user.is_superuser)):
+        messages.error(request, "This book is not available for viewing.")
+        return redirect('home')
+
     reads = Read.objects.filter(book=book).order_by('-date')
     average_score = reads.aggregate(models.Avg('score'))['score__avg'] or 0
     rated = Read.objects.filter(book=book, user=request.user).exists() if request.user.is_authenticated else False
@@ -249,6 +254,7 @@ def book_view(request, pk):
                   {'book': book, 'reads': reads, 'average_score': average_score, 'rated': rated})
 
 
+@login_required
 def book_rate(request, pk, rating):
     print({'pk': pk, 'rating': rating})
     book = get_object_or_404(Book, pk=pk)
@@ -264,6 +270,7 @@ def book_rate(request, pk, rating):
     messages.success(request, f"You rated '{book.title}' with a score of {rating}!")
     return redirect('book_view', pk=pk)
 
+@login_required
 def book_unrate(request, pk):
     book = get_object_or_404(Book, pk=pk)
 
@@ -275,3 +282,12 @@ def book_unrate(request, pk):
         messages.error(request, "You haven't rated this book yet.")
 
     return redirect('book_view', pk=pk)
+
+@staff_member_required
+def rating_delete(request, pk):
+    read = get_object_or_404(Read, pk=pk)
+    book = read.book
+    user = read.user
+    read.delete()
+    messages.success(request, f"You have removed {user.username}'s rating for '{book.title}'.")
+    return redirect('book_view', pk=book.pk)
